@@ -19,6 +19,15 @@ public class Clube {
         this.cidade = cidade;
     }
 
+    public Clube(int id, String nome, String cnpj, String cidade, int partidas, int pontos){
+        this.idClube = id;
+        this.nome = nome;
+        this.cnpj = cnpj;
+        this.cidade = cidade;
+        this.partidasJogadas = partidas;
+        this.pontos = pontos;
+    }
+
     public Clube(){
 
     }
@@ -73,7 +82,7 @@ public class Clube {
     }
 
     public String toString(){
-        return  "\nNome: " + nome + "\nCNPJ: " + cnpj + "\nCidade: " + cidade + "\nPartidas Jogadas: " + partidasJogadas + "\nPontos: " + pontos;
+        return "\nNome: " + nome + "\nCNPJ: " + cnpj + "\nCidade: " + cidade + "\nPartidas Jogadas: " + partidasJogadas + "\nPontos: " + pontos;
     }
 
      

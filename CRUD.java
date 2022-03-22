@@ -45,59 +45,56 @@ public class CRUD {
 
     }
 
-    public void readClub(int a) {
+    public Clube readClub(int a) throws Exception {
 
-        try {
+        String lapide;
+        byte[] ba;
+        int tamanhoReg, ultimoID, id;
 
-            String lapide;
-            byte[] ba;
-            int tamanhoReg, ultimoID, id;
+        RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+        Clube c = new Clube();
+        ultimoID = arq.readInt();
 
-            RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
-            ultimoID = arq.readInt();
+        if (a > ultimoID) {
+            System.out.println("Esse Clube ainda não existe");
+        } else {
 
-            if (a > ultimoID) {
-                System.out.println("Esse Clube ainda não existe");
-            } else {
+            long tamanhoArq = arq.length();
+            
 
-                long tamanhoArq = arq.length();
+            // enquanto não for o final do arquivo, ler o próximo
+            while (arq.getFilePointer() < tamanhoArq) {
 
-                // enquanto não for o final do arquivo, ler o próximo
-                while (arq.getFilePointer() < tamanhoArq) {
-
-                    lapide = arq.readUTF();
-                    if (!lapide.equals("'*'")) {
-                        tamanhoReg = arq.readInt();
-                        id = arq.readInt();
-                        if (a == id) {
-                            Clube c = new Clube();
-                            c.setNome(arq.readUTF());
-                            c.setCnpj(arq.readUTF());
-                            c.setCidade(arq.readUTF());
-                            c.setPartidasJogadas(arq.readInt());
-                            c.setPontos(arq.readInt());
-                            System.out.println(c);
-                            break;
-                        } else {
-                            ba = new byte[tamanhoReg - 4];
-                            arq.read(ba);
-                        }
+                lapide = arq.readUTF();
+                if (!lapide.equals("'*'")) {
+                    tamanhoReg = arq.readInt();
+                    id = arq.readInt();
+                    if (a == id) {
+                        c.setNome(arq.readUTF());
+                        c.setCnpj(arq.readUTF());
+                        c.setCidade(arq.readUTF());
+                        c.setPartidasJogadas(arq.readInt());
+                        c.setPontos(arq.readInt());
+                        break;
                     } else {
-                        tamanhoReg = arq.readInt();
-                        System.out.println(tamanhoReg);
-                        ba = new byte[tamanhoReg];
+                        ba = new byte[tamanhoReg - 4];
                         arq.read(ba);
+
                     }
+                } else {
+                    tamanhoReg = arq.readInt();
+                    ba = new byte[tamanhoReg];
+                    arq.read(ba);
 
                 }
 
             }
-            arq.close();
 
-        } catch (Exception e) {
-            System.out.println("\n ERRO: Não foi possível encontrar dados do Clube");
-            e.printStackTrace();
         }
+
+        arq.close();
+
+        return c;
 
     }
 
@@ -141,16 +138,59 @@ public class CRUD {
 
     }
 
-    public void updateClub(Clube c) {
-      try{
-         RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+    public void updateClub(Clube c, String nome, String cnpj, String cidade, int partidas, int pontos) {
+        try {
+            RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+            long tamanhoArq = arq.length();
+            long pos;
+            String lapide;
+            int tamanhoReg, id;
+            byte[] bytee, ba;
+            arq.seek(4);
+            while (arq.getFilePointer() < tamanhoArq) {
+                pos = arq.getFilePointer();
+                lapide = arq.readUTF();
+                if (!lapide.equals("'*'")) {
+                    tamanhoReg = arq.readInt();
+                    id = arq.readInt();
+                    if (c.getIdClube() == id) {
+                        Clube clube = new Clube(c.getIdClube(), nome, cnpj, cidade, partidas, pontos);
+                        bytee = clube.toByteArray();
+                        if (bytee.length < tamanhoReg) {
+                            arq.seek(pos);
+                            arq.writeUTF("''");;
+                            arq.writeInt(tamanhoReg);
+                            arq.write(bytee);
+                            break;
+                        } else {
+                            arq.seek(pos);
+                            arq.writeUTF("'*'");
+                            arq.seek(arq.length());
+                            arq.writeUTF("''");
+                            arq.writeInt(bytee.length);
+                            arq.write(bytee);
+                            System.out.println(clube);
+                            break;
+                        }
+                    } else {
+                        ba = new byte[tamanhoReg - 4];
+                        arq.read(ba);
+                    }
 
+                } else {
+                    tamanhoReg = arq.readInt();
+                    ba = new byte[tamanhoReg];
+                    arq.read(ba);
+                }
 
-      }catch(Exception e){
-        System.out.println("Não foi possivel atualizar as informações do Clube");
-        e.printStackTrace();
-      }
+            }
+            
+            arq.close();
 
+        } catch (Exception e) {
+            System.out.println("Não foi possivel atualizar as informações do Clube");
+            e.printStackTrace();
+        }
 
     }
 

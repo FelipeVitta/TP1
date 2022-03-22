@@ -1,0 +1,29 @@
+cabeçalho - int para o ultimo valor do id
+
+registros:
+-lápide  (*) ou ('')  * = morto        '' = vivo
+-indicador de tamanho do registro (tamanho do vetor em bytes)
+-vetor de bytes (descrevem o objeto)
+
+lapide
+tamanhoRegistro
+id
+nome
+cnpj
+cidade
+partidas
+pontos
+
+CREATE:
+ler do usuario nome, cnpj, cidade
+id = ultimo id+1
+partidasJogadas = 0
+pontos = 0;
+
+READ:
+
+
+
+
+
+

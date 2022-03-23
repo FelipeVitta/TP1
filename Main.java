@@ -95,7 +95,6 @@ public class Main {
                   System.out.println(clube);
                   System.out.println("\n1-Sim");
                   System.out.println("2-Não");
-                  clube.setIdClube(opcao);
                   op = sc.nextInt();
                   if (op == 1) {
                      System.out.println("\nDigite o novo nome: \n");
@@ -106,9 +105,9 @@ public class Main {
                      System.out.println("\nDigite a cidade: \n");
                      cidade = sc.nextLine();
 
-                     partidas = clube.getPontos();
+                     partidas = clube.getPartidasJogadas();
                      pontos = clube.getPontos();
-                     crud.updateClub(clube, nome, cnpj, cidade, pontos, partidas);
+                     crud.updateClub(clube, nome, cnpj, cidade, partidas, pontos);
                   } else if (op == 2) {
                      System.out.println("Informações do clube mantidas");
                   } else {

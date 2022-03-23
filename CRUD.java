@@ -72,6 +72,7 @@ public class CRUD {
                     tamanhoReg = arq.readInt();
                     id = arq.readInt();
                     if (a == id) {
+                        c.setIdClube(id);
                         c.setNome(arq.readUTF());
                         c.setCnpj(arq.readUTF());
                         c.setCidade(arq.readUTF());
@@ -195,5 +196,12 @@ public class CRUD {
         }
 
     }
+
+    public void teamMatch(){
+
+
+    }
+
+    
 
 }

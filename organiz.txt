@@ -14,13 +14,10 @@ cidade
 partidas
 pontos
 
-CREATE:
-ler do usuario nome, cnpj, cidade
-id = ultimo id+1
-partidasJogadas = 0
-pontos = 0;
+TEAM MATCH
 
-READ:
+
+
 
 
 

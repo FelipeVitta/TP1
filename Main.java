@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
@@ -49,6 +50,15 @@ public class Main {
 
             case 2:
                try {
+                  RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+                  int ultimoId = arq.readInt();
+                  System.out.println("\n");
+                  for (int i = 1; i <= ultimoId; i++) {
+                     Clube b = crud.readClub(i);
+                     if (b.getIdClube() != 0) {
+                        System.out.println("ID:" + b.getIdClube() + "  Nome: " + b.getNome());
+                     }
+                  }
 
                   System.out.println("\nDigite o ID do clube que deseja obter os dados: \n");
                   id = sc.nextInt();
@@ -127,9 +137,12 @@ public class Main {
 
                break;
 
-              //REALIZAR UMA PARTIDA
+            // REALIZAR UMA PARTIDA
 
             case 5:
+               String clube1, clube2;
+               System.out.println("Digite o nome dos dois Clubes que gostaria de realizar a partida");
+
                break;
 
             default:

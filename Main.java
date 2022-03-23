@@ -63,6 +63,7 @@ public class Main {
                   System.out.println("\nDigite o ID do clube que deseja obter os dados: \n");
                   id = sc.nextInt();
                   System.out.println(crud.readClub(id));
+                  arq.close();
                } catch (Exception e) {
                   System.out.println("Não foi possivel ler o arquivo");
                   e.printStackTrace();
@@ -75,6 +76,16 @@ public class Main {
             case 3:
 
                try {
+
+                  RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+                  int ultimoId = arq.readInt();
+                  System.out.println("\n");
+                  for (int i = 1; i <= ultimoId; i++) {
+                     Clube b = crud.readClub(i);
+                     if (b.getIdClube() != 0) {
+                        System.out.println("ID:" + b.getIdClube() + "  Nome: " + b.getNome());
+                     }
+                  }
 
                   Clube clube = new Clube();
                   System.out.println("\nQual o ID do clube que você quer atualizar os dados?");
@@ -103,6 +114,7 @@ public class Main {
                   } else {
                      System.out.println("Opção inválida");
                   }
+                  arq.close();
                } catch (Exception e) {
                   System.out.println("ERRO");
                   e.printStackTrace();
@@ -115,12 +127,22 @@ public class Main {
 
                try {
 
+                  RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+                  int ultimoId = arq.readInt();
+                  System.out.println("\n");
+                  for (int i = 1; i <= ultimoId; i++) {
+                     Clube b = crud.readClub(i);
+                     if (b.getIdClube() != 0) {
+                        System.out.println("ID:" + b.getIdClube() + "  Nome: " + b.getNome());
+                     }
+                  }
+
                   System.out.println("\nDigite o ID do clube que você quer deletar");
                   id = sc.nextInt();
-                  System.out.println("\nQuer mesmo deletar esse Clube?: ");
+                  System.out.println("Quer mesmo deletar esse Clube?: ");
                   System.out.println(crud.readClub(id));
                   System.out.println("\n1-Sim");
-                  System.out.println("2-Não");
+                  System.out.println("2-Não\n");
                   op = sc.nextInt();
                   if (op == 1) {
                      crud.deleteClub(id);
@@ -129,7 +151,7 @@ public class Main {
                   } else {
                      System.out.println("Opção inválida");
                   }
-
+                  arq.close();
                } catch (Exception e) {
                   System.out.println("ERRO");
                   e.printStackTrace();
@@ -140,9 +162,46 @@ public class Main {
             // REALIZAR UMA PARTIDA
 
             case 5:
-               String clube1, clube2;
-               System.out.println("Digite o nome dos dois Clubes que gostaria de realizar a partida");
+               try {
 
+                  RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+                  int ultimoId = arq.readInt();
+                  System.out.println("\n");
+                  for (int i = 1; i <= ultimoId; i++) {
+                     Clube b = crud.readClub(i);
+                     if (b.getIdClube() != 0) {
+                        System.out.println("ID:" + b.getIdClube() + "  Nome: " + b.getNome());
+                     }
+                  }
+
+                  int id1, id2;
+                  int gols1, gols2;
+                  Clube clube1 = new Clube();
+                  Clube clube2 = new Clube();
+                  System.out.println("\nDigite o ID dos dois Clubes que gostaria de realizar a partida\n");
+
+                  id1 = sc.nextInt();
+                  id2 = sc.nextInt();
+
+                  clube1 = crud.readClub(id1);
+                  clube2 = crud.readClub(id2);
+
+                  if (clube1.getNome() != null && clube2.getNome() != null) {
+
+                     System.out.println("Quantos gols o " + clube1.getNome() + " fez?");
+                     gols1 = sc.nextInt();
+                     System.out.println("Quantos gols o " + clube2.getNome() + " fez?");
+                     gols2 = sc.nextInt();
+
+                     crud.teamMatch(clube1, gols1, clube2, gols2);
+                  } else {
+                     System.out.println("Um dos Clubes não existe");
+                  }
+
+               } catch (Exception e) {
+                  System.out.println("ERRO");
+                  e.printStackTrace();
+               }
                break;
 
             default:

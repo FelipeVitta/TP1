@@ -197,9 +197,23 @@ public class CRUD {
 
     }
 
-    public void teamMatch(){
+    public void teamMatch(Clube a, int gol1, Clube b, int gol2) throws Exception{
 
-
+     RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+     if(gol1 > gol2){
+     updateClub(a, a.getNome(), a.getCnpj(), a.getCidade(), a.getPartidasJogadas() + 1, a.getPontos() + 3);
+     updateClub(b, b.getNome(), b.getCnpj(), b.getCidade(), b.getPartidasJogadas() + 1, b.getPontos());
+     System.out.println("O "+a.getNome()+" ganhou a partida!");
+     }else if(gol1 < gol2){
+        updateClub(b, b.getNome(), b.getCnpj(), b.getCidade(), b.getPartidasJogadas() + 1, b.getPontos() + 3);
+        updateClub(a, a.getNome(), a.getCnpj(), a.getCidade(), a.getPartidasJogadas() + 1, a.getPontos());
+        System.out.println("O "+b.getNome()+" ganhou a partida!");
+     }else if(gol1 == gol2){
+        updateClub(a, a.getNome(), a.getCnpj(), a.getCidade(), a.getPartidasJogadas() + 1, a.getPontos() + 1);
+        updateClub(b, b.getNome(), b.getCnpj(), b.getCidade(), b.getPartidasJogadas() + 1, b.getPontos() + 1);
+        System.out.println("\nO jogo empatou!");
+     }
+      
     }
 
     

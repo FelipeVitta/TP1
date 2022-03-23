@@ -81,14 +81,15 @@ public class Clube {
         this.pontos = pontos;
     }
 
+    //metodo que retorna uma string ao chamar o objeto
     public String toString(){
         return "\nNome: " + nome + "\nCNPJ: " + cnpj + "\nCidade: " + cidade + "\nPartidas Jogadas: " + partidasJogadas + "\nPontos: " + pontos;
     }
 
-     
+     //metodo para passar as variaveis do objeto para um vetor de bytes
     public byte[] toByteArray() throws Exception{
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();   //escreve pra um vetor de bytes em memoria
-        DataOutputStream dos = new DataOutputStream(baos);        //fluxo de saida que converte os valores (string, int, etc) em bytes
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();   
+        DataOutputStream dos = new DataOutputStream(baos);       
         dos.writeInt(idClube);        
         dos.writeUTF(nome);              
         dos.writeUTF(cnpj);

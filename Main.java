@@ -69,11 +69,11 @@ public class Main {
                   Clube clube = new Clube();
                   System.out.println("\nQual o ID do clube que você quer atualizar os dados?");
                   opcao = sc.nextInt();
-                  System.out.println("Quer mesmo atualizar os dados desse clube?:\n");
+                  System.out.println("Quer mesmo atualizar os dados desse clube?: ");
                   clube = crud.readClub(opcao);
                   System.out.println(clube);
                   System.out.println("\n1-Sim");
-                  System.out.println("\n2-Não");
+                  System.out.println("2-Não");
                   clube.setIdClube(opcao);
                   op = sc.nextInt();
                   if (op == 1) {
@@ -110,7 +110,7 @@ public class Main {
                   System.out.println("\nQuer mesmo deletar esse Clube?: ");
                   System.out.println(crud.readClub(id));
                   System.out.println("\n1-Sim");
-                  System.out.println("\n2-Não");
+                  System.out.println("2-Não");
                   op = sc.nextInt();
                   if (op == 1) {
                      crud.deleteClub(id);
@@ -128,7 +128,7 @@ public class Main {
                break;
 
               //REALIZAR UMA PARTIDA
-              
+
             case 5:
                break;
 

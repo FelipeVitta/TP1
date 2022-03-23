@@ -31,7 +31,7 @@ public class CRUD {
             arq.writeInt(a.getIdClube());
             ba = a.toByteArray();
             arq.seek(arq.length());
-            arq.writeUTF("''");
+            arq.writeChars("'");
             arq.writeInt(ba.length);
             arq.write(ba);
             System.out.println(a);
@@ -47,11 +47,13 @@ public class CRUD {
 
     public Clube readClub(int a) throws Exception {
 
-        String lapide;
+        char lapide;
         byte[] ba;
         int tamanhoReg, ultimoID, id;
 
         RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
+        ByteBuffer buffer = ByteBuffer.allocate(4);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
         Clube c = new Clube();
         ultimoID = arq.readInt();
 
@@ -61,12 +63,12 @@ public class CRUD {
 
             long tamanhoArq = arq.length();
             
-
+           
             // enquanto não for o final do arquivo, ler o próximo
             while (arq.getFilePointer() < tamanhoArq) {
 
-                lapide = arq.readUTF();
-                if (!lapide.equals("'*'")) {
+                lapide = arq.readChar();
+                if (lapide != '*') {
                     tamanhoReg = arq.readInt();
                     id = arq.readInt();
                     if (a == id) {
@@ -82,7 +84,7 @@ public class CRUD {
 
                     }
                 } else {
-                    tamanhoReg = arq.readInt();
+                    tamanhoReg = arq.readInt();                                      
                     ba = new byte[tamanhoReg];
                     arq.read(ba);
 
@@ -101,7 +103,7 @@ public class CRUD {
     public void deleteClub(int c) {
         try {
             byte[] ba;
-            String lapide;
+            char lapide;
             int tamanhoReg, id;
 
             RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
@@ -110,13 +112,13 @@ public class CRUD {
 
             while (arq.getFilePointer() < tamanhoArq) {
                 long pos = arq.getFilePointer();
-                lapide = arq.readUTF();
-                if (!lapide.equals("'*'")) {
+                lapide = arq.readChar();
+                if (lapide != '*') {
                     tamanhoReg = arq.readInt();
                     id = arq.readInt();
                     if (c == id) {
                         arq.seek(pos);
-                        arq.writeUTF("'*'");
+                        arq.writeChars("*");
                         break;
                     } else {
                         ba = new byte[tamanhoReg - 4];
@@ -143,14 +145,14 @@ public class CRUD {
             RandomAccessFile arq = new RandomAccessFile("dados/clubes.db", "rw");
             long tamanhoArq = arq.length();
             long pos;
-            String lapide;
+            char lapide;
             int tamanhoReg, id;
             byte[] bytee, ba;
             arq.seek(4);
             while (arq.getFilePointer() < tamanhoArq) {
                 pos = arq.getFilePointer();
-                lapide = arq.readUTF();
-                if (!lapide.equals("'*'")) {
+                lapide = arq.readChar();
+                if (lapide != '*') {
                     tamanhoReg = arq.readInt();
                     id = arq.readInt();
                     if (c.getIdClube() == id) {
@@ -158,15 +160,15 @@ public class CRUD {
                         bytee = clube.toByteArray();
                         if (bytee.length < tamanhoReg) {
                             arq.seek(pos);
-                            arq.writeUTF("''");;
+                            arq.writeChars("'");
                             arq.writeInt(tamanhoReg);
                             arq.write(bytee);
                             break;
                         } else {
                             arq.seek(pos);
-                            arq.writeUTF("'*'");
+                            arq.writeChars("*");
                             arq.seek(arq.length());
-                            arq.writeUTF("''");
+                            arq.writeChars("'");
                             arq.writeInt(bytee.length);
                             arq.write(bytee);
                             System.out.println(clube);
